@@ -3,7 +3,7 @@ library(dplyr)
 
 tickers <- c('FXE', 'EWJ', 'GLD', 'QQQ', 'SPY', 'SHV', 'DBA', 'USO', 'XBI', 'ILF', 'EPP', 'FEZ')
 
-getSymbols(tickers, from = '2007-03-01', to = '2022-11-01')
+getSymbols(tickers, from = '2007-02-28', to = '2022-11-01')
 
 View(FXE)
 
@@ -23,3 +23,17 @@ for (i in 2:length(tickers)) {
   try(ETFs <- cbind(ETFs, temp_stock)) #Only gets stocks with data for full time frame
 }
 colnames(ETFs) <- tickers
+
+ETFs <- as.data.frame(ETFs)
+
+ETFs$FXE
+
+log_ret <- diff(log(ETFs[,1]))
+for (i in 2:ncol(ETFs)) {
+  log_ret <- cbind(log_ret, diff(log(ETFs[,i])))
+}
+log_ret <- as.data.frame(log_ret)
+colnames(log_ret) <- colnames(ETFs)
+rownames(log_ret) <- rownames(ETFs)[-1]
+
+
