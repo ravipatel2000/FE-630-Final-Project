@@ -26,6 +26,8 @@ ETFs <- as.data.frame(ETFs)
 # Annualized Returns
 ETFs_rtn <- (ETFs[2:nrow(ETFs),] - ETFs[1:(nrow(ETFs) - 1),]) / ETFs[1:(nrow(ETFs) - 1),] * 252
 
+write.csv(cbind(ETFs_rtn, ff)[,-13], file = 'ETF_ff_Data.csv')
+
 # Function to get params for investment strategies
 get_strategy_params <- function(returns, ff_data, benchmark, start='2007-03-01', end='2022-11-01') {
   benchmark <- as.data.frame(cbind(rownames(returns), benchmark))
