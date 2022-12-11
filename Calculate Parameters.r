@@ -50,20 +50,20 @@ get_strategy_params <- function(returns, ff_data, benchmark, start='2007-03-01',
   }
   names(expected_rtn) <- colnames(ETFs_rtn)
   
-  cov_matrix <- as.matrix(reg_info[, 2:4]) %*% cov(ff_data[, 2:4]) %*% t(as.matrix(reg_info[, 2:4]))
+  cov_matrix_2 <- as.matrix(reg_info[, 2:4]) %*% cov(ff_data[, 2:4]) %*% t(as.matrix(reg_info[, 2:4]))
   
-  params <- list(reg_info, beta, expected_rtn, cov_matrix)
+  params <- list(reg_info, beta, expected_rtn, cov_matrix_2)
   names(params) <- c("Regression_Info", "Beta", "Expected_Return", "Covariance_Matrix")
   return(params)
 }
-params <- get_strategy_params(ETFs_rtn, ff, ETFs_rtn[,5], start = '2010-03-01', end = '2022-11-01')
-params$Beta
-params$Expected_Return
-params$Covariance_Matrix
+params <- get_strategy_params(ETFs_rtn, ff, ETFs_rtn[,5])
+Beta <- params$Beta
+Expected_Return <- params$Expected_Return
+Covariance_Matrix <- params$Covariance_Matrix
 
+params$Regression_Info
 
+save(Beta, Expected_Return, Covariance_Matrix, file = "strategy_params.RData")
 
-
-
-
+load("strategy_params.RData")
 
